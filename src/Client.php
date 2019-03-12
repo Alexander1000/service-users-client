@@ -26,11 +26,19 @@ class Client
 
     public function getById(int $userId)
     {
+        $response = $this->executeRequest(new Request\V1\Get($userId));
+    }
+
+    /**
+     * @param NetworkTransport\Http\Request\Data $requestData
+     * @return array
+     * @throws \Alexander1000\Clients\Users\Exception
+     * @throws \NetworkTransport\Http\Exception\MethodNotAllowed
+     */
+    protected function executeRequest(NetworkTransport\Http\Request\Data $requestData): array
+    {
         $response = $this->transport->send(
-            new NetworkTransport\Http\Request(
-                $this->requestBuilder,
-                new Request\V1\Get($userId)
-            )
+            new NetworkTransport\Http\Request($this->requestBuilder, $requestData)
         );
 
         if ($response->isError()) {
@@ -39,5 +47,16 @@ class Client
                 $response->getErrorCode() ?? 500
             );
         }
+
+        $data = json_decode($response->getResponse() ?? '', true);
+        if (json_last_error()) {
+            throw new Exception('cannot parse response', 501);
+        }
+
+        if (isset($data['error'])) {
+            throw new Exception($data['error']['message'], $data['error']['code']);
+        }
+
+        return $data;
     }
 }

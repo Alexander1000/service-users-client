@@ -17,6 +17,7 @@
   "minimum-stability": "dev",
   "require": {
     "php": ">=7.2",
+    "ext-json": "*",
     "Alexander1000/network-transport": "~2.0"
   },
   "autoload": {
