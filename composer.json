@@ -1,0 +1,27 @@
+{
+  "name": "Alexander1000/service-users-client",
+  "description": "service-users-client",
+  "authors": [
+    {
+      "name": "Alexander Dankovtsev",
+      "email": "a.dankovtsev@mail.ru"
+    }
+  ],
+  "config": {
+    "secure-http": false
+  },
+  "repositories": [
+    { "packagist": false },
+    { "type": "vcs", "url": "git@github.com:Alexander1000/network-transport.git"}
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=7.2",
+    "Alexander1000/network-transport": "~2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Alexander1000\\Clients\\": "src"
+    }
+  }
+}
