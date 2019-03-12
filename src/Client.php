@@ -24,9 +24,20 @@ class Client
         $this->requestBuilder = $requestBuilder;
     }
 
-    public function getById(int $userId)
+    /**
+     * @param int $userId
+     * @return Response\V1\User|null
+     * @throws Exception
+     * @throws NetworkTransport\Http\Exception\MethodNotAllowed
+     */
+    public function getById(int $userId): ?Response\V1\User
     {
         $response = $this->executeRequest(new Request\V1\Get($userId));
+        return new Response\V1\User(
+            (int) $response['id'],
+            (int) $response['statusId'],
+            $response['login']
+        );
     }
 
     /**
