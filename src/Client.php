@@ -32,7 +32,7 @@ class Client
      */
     public function getById(int $userId): ?Response\V1\User
     {
-        $response = $this->executeRequest(new Request\V1\Get($userId));
+        $response = $this->executeRequest(new Request\V1\Get($userId))['result'];
         return new Response\V1\User(
             (int) $response['id'],
             (int) $response['statusId'],

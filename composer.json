@@ -22,7 +22,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Alexander1000\\Clients\\Users": "src"
+      "Alexander1000\\Clients\\Users\\": "src"
     }
   }
 }
