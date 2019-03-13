@@ -32,7 +32,14 @@ class Client
      */
     public function getById(int $userId): ?Model\V1\User
     {
-        $response = $this->executeRequest(new Request\V1\Get($userId))['result'];
+        $result = $this->executeRequest(new Request\V1\Get($userId));
+
+        if ($result->isError()) {
+            throw new Exception($result->getErrorMessage() ?? '', $result->getErrorCode() ?? 500);
+        }
+
+        $response = $result->getResult();
+        
         return new Model\V1\User(
             (int) $response['id'],
             (int) $response['statusId'],
@@ -62,11 +69,11 @@ class Client
 
     /**
      * @param NetworkTransport\Http\Request\Data $requestData
-     * @return array
+     * @return Response
      * @throws \Alexander1000\Clients\Users\Exception
      * @throws \NetworkTransport\Http\Exception\MethodNotAllowed
      */
-    protected function executeRequest(NetworkTransport\Http\Request\Data $requestData): array
+    protected function executeRequest(NetworkTransport\Http\Request\Data $requestData): Response
     {
         $response = $this->transport->send(
             new NetworkTransport\Http\Request($this->requestBuilder, $requestData)
@@ -84,10 +91,14 @@ class Client
             throw new Exception('cannot parse response', 501);
         }
 
+        $errCode = null;
+        $errMsg = null;
+
         if (isset($data['error'])) {
-            throw new Exception($data['error']['message'], $data['error']['code']);
+            $errCode = (int) $data['error']['code'];
+            $errMsg = (int) $data['error']['message'];
         }
 
-        return $data;
+        return new Response($data['result'] ?? null, $errCode, $errMsg);
     }
 }
