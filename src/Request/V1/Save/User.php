@@ -20,12 +20,12 @@ class User implements \JsonSerializable
     private $login;
 
     /**
-     * @var array|null
+     * @var Email[]|null
      */
     private $emails;
 
     /**
-     * @var array|null
+     * @var Phone[]|null
      */
     private $phones;
 

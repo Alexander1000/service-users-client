@@ -35,6 +35,51 @@ class Client
         $result = $this->executeRequest(new Request\V1\Get($userId));
 
         if ($result->isError()) {
+            if ($result->getErrorCode() === 404) {
+                return null;
+            }
+            throw new Exception($result->getErrorMessage() ?? '', $result->getErrorCode() ?? 500);
+        }
+
+        $response = $result->getResult();
+
+        return new Response\V1\User(
+            (int) $response['id'],
+            (int) $response['statusId'],
+            $response['login'],
+            array_map(
+                function (array $row) {
+                    return new Response\V1\Email(
+                        (int) $row['id'],
+                        (int) $row['statusId'],
+                        $row['email']
+                    );
+                },
+                $response['emails']
+            ),
+            array_map(
+                function (array $row) {
+                    return new Response\V1\Phone(
+                        (int) $row['id'],
+                        (int) $row['statusId'],
+                        $row['phone']
+                    );
+                },
+                $response['phones']
+            )
+        );
+    }
+
+    /**
+     * @param Request\V1\Save\User $user
+     * @return Response\V1\User
+     * @throws Exception
+     * @throws NetworkTransport\Http\Exception\MethodNotAllowed
+     */
+    public function save(Request\V1\Save\User $user): Response\V1\User
+    {
+        $result = $this->executeRequest(new Request\V1\Save($user));
+        if ($result->isError()) {
             throw new Exception($result->getErrorMessage() ?? '', $result->getErrorCode() ?? 500);
         }
 

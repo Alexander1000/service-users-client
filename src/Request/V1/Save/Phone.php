@@ -2,7 +2,7 @@
 
 namespace Alexander1000\Clients\Users\Request\V1\Save;
 
-class Email implements \JsonSerializable
+class Phone implements \JsonSerializable
 {
     /**
      * @var int|null
@@ -17,16 +17,16 @@ class Email implements \JsonSerializable
     /**
      * @var string
      */
-    private $email;
+    private $phone;
 
     public function __construct(
         ?int $id,
         ?int $statusId,
-        string $email
+        string $phone
     ) {
         $this->id = $id;
         $this->statusId = $statusId;
-        $this->email = $email;
+        $this->phone = $phone;
 
         if ($this->id !== null) {
             if ($this->statusId === null) {
@@ -41,7 +41,7 @@ class Email implements \JsonSerializable
     public function jsonSerialize()
     {
         $params = [
-            'email' => $this->email,
+            'phone' => $this->phone,
         ];
 
         if ($this->id !== null) {
