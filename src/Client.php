@@ -26,11 +26,11 @@ class Client
 
     /**
      * @param int $userId
-     * @return Model\V1\User|null
+     * @return Response\V1\User|null
      * @throws Exception
      * @throws NetworkTransport\Http\Exception\MethodNotAllowed
      */
-    public function getById(int $userId): ?Model\V1\User
+    public function getById(int $userId): ?Response\V1\User
     {
         $result = $this->executeRequest(new Request\V1\Get($userId));
 
@@ -40,13 +40,13 @@ class Client
 
         $response = $result->getResult();
 
-        return new Model\V1\User(
+        return new Response\V1\User(
             (int) $response['id'],
             (int) $response['statusId'],
             $response['login'],
             array_map(
                 function (array $row) {
-                    return new Model\V1\Email(
+                    return new Response\V1\Email(
                         (int) $row['id'],
                         (int) $row['statusId'],
                         $row['email']
@@ -56,7 +56,7 @@ class Client
             ),
             array_map(
                 function (array $row) {
-                    return new Model\V1\Phone(
+                    return new Response\V1\Phone(
                         (int) $row['id'],
                         (int) $row['statusId'],
                         $row['phone']

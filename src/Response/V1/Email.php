@@ -1,8 +1,8 @@
 <?php declare(strict_types = 1);
 
-namespace Alexander1000\Clients\Users\Model\V1;
+namespace Alexander1000\Clients\Users\Response\V1;
 
-class Phone
+class Email
 {
     /**
      * @var int
@@ -17,13 +17,13 @@ class Phone
     /**
      * @var string
      */
-    private $phone;
+    private $email;
 
-    public function __construct(int $id, int $statusId, string $phone)
+    public function __construct(int $id, int $statusId, string $email)
     {
         $this->id = $id;
         $this->statusId = $statusId;
-        $this->phone = $phone;
+        $this->email = $email;
     }
 
     /**
@@ -45,8 +45,8 @@ class Phone
     /**
      * @return string
      */
-    public function getPhone(): string
+    public function getEmail(): string
     {
-        return $this->phone;
+        return $this->email;
     }
 }

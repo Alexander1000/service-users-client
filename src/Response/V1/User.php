@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Alexander1000\Clients\Users\Model\V1;
+namespace Alexander1000\Clients\Users\Response\V1;
 
 class User
 {
