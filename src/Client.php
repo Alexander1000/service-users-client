@@ -39,7 +39,7 @@ class Client
         }
 
         $response = $result->getResult();
-        
+
         return new Model\V1\User(
             (int) $response['id'],
             (int) $response['statusId'],
