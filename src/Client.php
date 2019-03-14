@@ -141,7 +141,7 @@ class Client
 
         if (isset($data['error'])) {
             $errCode = (int) $data['error']['code'];
-            $errMsg = (int) $data['error']['message'];
+            $errMsg = $data['error']['message'];
         }
 
         return new Response($data['result'] ?? null, $errCode, $errMsg);
