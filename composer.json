@@ -1,5 +1,5 @@
 {
-  "name": "Alexander1000/service-users-client",
+  "name": "alexander1000/service-users-client",
   "description": "service-users-client",
   "authors": [
     {
@@ -16,9 +16,9 @@
   ],
   "minimum-stability": "dev",
   "require": {
-    "php": ">=7.2",
+    "php": ">=8.0",
     "ext-json": "*",
-    "Alexander1000/network-transport": "~2.0"
+    "alexander1000/network-transport": "~2.0"
   },
   "autoload": {
     "psr-4": {

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6e3f2a7370b8646887c62dd9d69c32df",
+    "content-hash": "8520b86763baf9a5344c027ddcca96ef",
     "packages": [
         {
             "name": "Alexander1000/network-transport",
@@ -50,8 +50,9 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.2",
+        "php": ">=8.0",
         "ext-json": "*"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
 }

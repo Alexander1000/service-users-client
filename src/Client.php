@@ -6,15 +6,9 @@ use NetworkTransport;
 
 class Client
 {
-    /**
-     * @var NetworkTransport\Http\Transport
-     */
-    private $transport;
+    private NetworkTransport\Http\Transport $transport;
 
-    /**
-     * @var NetworkTransport\Http\Request\Builder
-     */
-    private $requestBuilder;
+    private NetworkTransport\Http\Request\Builder $requestBuilder;
 
     public function __construct(
         NetworkTransport\Http\Transport $transport,
@@ -33,6 +27,52 @@ class Client
     public function getById(int $userId): ?Response\V1\User
     {
         $result = $this->executeRequest(new Request\V1\Get($userId));
+
+        if ($result->isError()) {
+            if ($result->getErrorCode() === 404) {
+                return null;
+            }
+            throw new Exception($result->getErrorMessage() ?? '', $result->getErrorCode() ?? 500);
+        }
+
+        $response = $result->getResult();
+
+        return new Response\V1\User(
+            (int) $response['id'],
+            (int) $response['statusId'],
+            $response['login'],
+            array_map(
+                function (array $row) {
+                    return new Response\V1\Email(
+                        (int) $row['id'],
+                        (int) $row['statusId'],
+                        $row['email']
+                    );
+                },
+                $response['emails']
+            ),
+            array_map(
+                function (array $row) {
+                    return new Response\V1\Phone(
+                        (int) $row['id'],
+                        (int) $row['statusId'],
+                        $row['phone']
+                    );
+                },
+                $response['phones']
+            )
+        );
+    }
+
+    /**
+     * @param string $email
+     * @return Response\V1\User|null
+     * @throws Exception
+     * @throws NetworkTransport\Http\Exception\MethodNotAllowed
+     */
+    public function getByEmail(string $email): ?Response\V1\User
+    {
+        $result = $this->executeRequest(new Request\V1\GetByEmail($email));
 
         if ($result->isError()) {
             if ($result->getErrorCode() === 404) {
